@@ -11,21 +11,39 @@ class MainPage extends Component {
                 { text: 'column', class: 'flex-column' },
                 { text: 'row-reverse', class: 'flex-row-reverse' },
                 { text: 'column-reverse', class: 'flex-column-reverse' }],
+            wrapList: [
+                { text: 'nowrap', class: '' },
+                { text: 'wrap', class: 'flex-wrap' },
+                { text: 'wrap-reverse', class: 'flex-wrap-reverse' }],
             jcList: [
                 { text: 'flex-start', class: '' },
                 { text: 'flex-end', class: 'justify-content-end' },
                 { text: 'center', class: 'justify-content-center' },
                 { text: 'space-between', class: 'justify-content-between' },
-                { text: 'space-around', class: 'justify-content-around' },
-            ],
+                { text: 'space-around', class: 'justify-content-around' }],
+            aiList: [
+                { text: 'flex-start', class: '' },
+                { text: 'flex-end', class: 'align-items-end' },
+                { text: 'center', class: 'align-items-center' },
+                { text: 'baseline', class: 'align-items-baseline' },
+                { text: 'stretch', class: 'align-items-stretch' }],
+            acList: [
+                { text: 'flex-start', class: '' },
+                { text: 'flex-end', class: 'align-content-end' },
+                { text: 'center', class: 'align-content-center' },
+                { text: 'space-between', class: 'align-content-between' },
+                { text: 'space-around', class: 'align-content-around' },
+                { text: 'stretch', class: 'align-content-stretch' }],
             // aiList: [
             //     { text: '', class: '' },
             // ],
             // 當前屬性值
             valRecord: {
                 dirVal: 0,      // flex-direction
+                wrapVal: 0,     // flex-wrap
                 jcVal: 0,       // justify-content
                 aiVal: 0,       // align-items
+                acVal: 0,       // align-content
             },
         }
     }
@@ -41,7 +59,10 @@ class MainPage extends Component {
         // 屬性值與列表的名稱對照
         const convertList = {
             dirVal: 'dirList',
+            wrapVal: 'wrapList',
             jcVal: 'jcList',
+            aiVal: 'aiList',
+            acVal: 'acList',
         }
         const classList = Object.keys(valRecord).reduce((pre, el) => {
             if (!!valRecord[el] && convertList[el]) {
@@ -52,30 +73,35 @@ class MainPage extends Component {
         return classList
     }
     // 初始化所有值
-    initVal = () => {
+    initVal = (e) => {
+        if (e) { e.preventDefault() }
         const newVal = { ...this.state.valRecord }
         Object.keys(newVal).map(item => newVal[item] = 0)
-        console.log(newVal);
         this.setState({ valRecord: newVal });
     }
     render() {
-        const { valRecord, dirList, jcList } = this.state
+        const { valRecord, dirList, wrapList, jcList, aiList, acList } = this.state
         const radioContent = (title, btnName, list, valName) => (
-            <div className="mb-2 d-flex align-items-center">
-                <span className="mr-3">{title}</span>
-                <RadioBtn name={btnName}
-                    list={list}
-                    value={valRecord[valName]}
-                    onChange={e => this.setVal(valName, e.target.value)}
-                />
-            </div>
+            <div className="mb-2 row align-items-center">
+            <span className="col-lg-2 mb-lg-0 mb-1">{title}</span>
+            <div className="col-lg-10">
+            <RadioBtn name={btnName}
+                list={list}
+                value={valRecord[valName]}
+                onChange={e => this.setVal(valName, e.target.value)}
+            /></div>
+        </div>
         )
         return (
             <div className="container p-3">
                 {radioContent('flex-direction', 'dirBtn', dirList, 'dirVal')}
+                {radioContent('flex-wrap', 'wrapBtn', wrapList, 'wrapVal')}
                 {radioContent('justify-content', 'jcBtn', jcList, 'jcVal')}
-                {/* {radioContent('align-items', 'aiBtn', dirList, 'aiVal')} */}
-                <span className="btn btn-outline-danger my-2" onClick={this.initVal}>reset!</span>
+                {radioContent('align-items', 'aiBtn', aiList, 'aiVal')}
+                {radioContent('align-content', 'acBtn', acList, 'acVal')}
+                {!!valRecord.acVal && !valRecord.wrapVal && 
+                <div className="text-danger">* ALIGN-CONTENT need to use with WRAP!!</div> }
+                <button className="btn btn-outline-danger my-2" onClick={this.initVal}>reset!</button>
                 <Flexbox classList={this.setClass()} />
             </div>
         );

@@ -8,7 +8,7 @@ class Flexbox extends Component {
         const { classList } = this.props;
         return (
             <div className={`boxWrapper d-flex ${classList.join(' ')}`}>
-                {Array.apply(null, Array(5)).map((item, key) =>
+                {Array.apply(null, Array(10)).map((item, key) =>
                     <div className="boxItem" key={key}>{key+1}</div>
                 )}
             </div>

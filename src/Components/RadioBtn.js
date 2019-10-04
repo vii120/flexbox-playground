@@ -16,6 +16,7 @@ class RadioBtn extends Component {
                             name={name}
                             id={`${name}_${key}`}
                             value={key}
+                            checked={key === value}
                             onChange={onChange}
                         />
                         {item.text}
