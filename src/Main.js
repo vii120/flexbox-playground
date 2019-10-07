@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RadioBtn, Flexbox } from './Components'
+import { RadioBtn, Flexbox, ItemSelector, Flexitem } from './Components'
 
 class MainPage extends Component {
     constructor(props) {
@@ -34,28 +34,51 @@ class MainPage extends Component {
                 { text: 'space-between', class: 'align-content-between' },
                 { text: 'space-around', class: 'align-content-around' },
                 { text: 'stretch', class: 'align-content-stretch' }],
-            // aiList: [
-            //     { text: '', class: '' },
-            // ],
-            // 當前屬性值
-            valRecord: {
+            // flex container 當前屬性值
+            containerVal: {
                 dirVal: 0,      // flex-direction
                 wrapVal: 0,     // flex-wrap
                 jcVal: 0,       // justify-content
                 aiVal: 0,       // align-items
                 acVal: 0,       // align-content
             },
+            // flex items 當前屬性值
+            itemVal: [
+                { grow: 0, shrink: 1, basis: 0, order: 0, self: 0 },
+                { grow: 0, shrink: 1, basis: 0, order: 0, self: 0 },
+                { grow: 0, shrink: 1, basis: 0, order: 0, self: 0 },
+                { grow: 0, shrink: 1, basis: 0, order: 0, self: 0 },
+                { grow: 0, shrink: 1, basis: 0, order: 0, self: 0 }],
+            asList: [
+                { text: 'auto', class: '' },
+                { text: 'flex-start', class: 'align-self-start' },
+                { text: 'flex-end', class: 'align-self-end' },
+                { text: 'center', class: 'align-self-center' },
+                { text: 'baseline', class: 'align-self-baseline' },
+                { text: 'stretch', class: 'align-self-stretch' }],
+            fbList: [
+                { text: 'auto', class: '' },
+                { text: '0px', class: 'flex-basis-0' },
+                { text: '100px', class: 'flex-basis-px' },
+                { text: '50%', class: 'flex-basis-percent' },
+            ]
         }
     }
-    // 改變任何屬性
-    setVal = (attr, val) => {
-        const newVal = { ...this.state.valRecord }
+    // 改變 container 屬性
+    setConVal = (attr, val) => {
+        const newVal = { ...this.state.containerVal }
         newVal[attr] = Number(val)
-        this.setState({ valRecord: newVal });
+        this.setState({ containerVal: newVal });
     }
-    // 將屬性轉成 class 名稱
+    // 改變 item 屬性
+    setItemVal = (index, attr, val) => {
+        const newVal = this.state.itemVal.map(item => ({ ...item }))
+        newVal[index][attr] = Number(val)
+        this.setState({ itemVal: newVal });
+    }
+    // 將 container 屬性轉成 class 名稱
     setClass = () => {
-        const { valRecord } = this.state
+        const { containerVal } = this.state
         // 屬性值與列表的名稱對照
         const convertList = {
             dirVal: 'dirList',
@@ -64,45 +87,70 @@ class MainPage extends Component {
             aiVal: 'aiList',
             acVal: 'acList',
         }
-        const classList = Object.keys(valRecord).reduce((pre, el) => {
-            if (!!valRecord[el] && convertList[el]) {
+        const classList = Object.keys(containerVal).reduce((pre, el) => {
+            if (!!containerVal[el] && convertList[el]) {
                 const attrList = this.state[convertList[el]]
-                return pre.concat(attrList[valRecord[el]].class)
+                return pre.concat(attrList[containerVal[el]].class)
             } else return pre
         }, [])
         return classList
     }
-    // 初始化所有值
+    // 初始化 container 所有值
     initVal = (e) => {
         if (e) { e.preventDefault() }
-        const newVal = { ...this.state.valRecord }
+        const newVal = { ...this.state.containerVal }
         Object.keys(newVal).map(item => newVal[item] = 0)
-        this.setState({ valRecord: newVal });
+        this.setState({ containerVal: newVal });
     }
     render() {
-        const { valRecord, dirList, wrapList, jcList, aiList, acList } = this.state
+        const {
+            containerVal,
+            dirList,
+            wrapList,
+            jcList,
+            aiList,
+            acList,
+            itemVal,
+            asList,
+            fbList,
+        } = this.state
         const radioContent = (title, btnName, list, valName) => (
             <div className="mb-2 row align-items-center">
-            <span className="col-lg-2 mb-lg-0 mb-1">{title}</span>
-            <div className="col-lg-10">
-            <RadioBtn name={btnName}
-                list={list}
-                value={valRecord[valName]}
-                onChange={e => this.setVal(valName, e.target.value)}
-            /></div>
-        </div>
+                <span className="col-lg-2 mb-lg-0 mb-1 font-weight-bold">{title}</span>
+                <div className="col-lg-10">
+                    <RadioBtn name={btnName}
+                        list={list}
+                        value={containerVal[valName]}
+                        onChange={e => this.setConVal(valName, e.target.value)}
+                    />
+                </div>
+            </div>
         )
         return (
-            <div className="container p-3">
+            <div className="container pt-2 pb-5">
+                <h1 className="text-center mb-4">Flexbox Playground</h1>
+                <h3><span role="img">🧀</span> flex container</h3>
                 {radioContent('flex-direction', 'dirBtn', dirList, 'dirVal')}
                 {radioContent('flex-wrap', 'wrapBtn', wrapList, 'wrapVal')}
                 {radioContent('justify-content', 'jcBtn', jcList, 'jcVal')}
                 {radioContent('align-items', 'aiBtn', aiList, 'aiVal')}
                 {radioContent('align-content', 'acBtn', acList, 'acVal')}
-                {!!valRecord.acVal && !valRecord.wrapVal && 
-                <div className="text-danger">* ALIGN-CONTENT need to use with WRAP!!</div> }
+                {!!containerVal.acVal && !containerVal.wrapVal &&
+                    <div className="text-danger">* ALIGN-CONTENT need to use with WRAP!!</div>}
                 <button className="btn btn-outline-danger my-2" onClick={this.initVal}>reset!</button>
                 <Flexbox classList={this.setClass()} />
+                <h3 className="pt-3"><span role="img">🧀</span> flex items</h3>
+                <div className="selectorWrapper">
+                    {Array.apply(null, Array(5)).map((item, key) =>
+                        <ItemSelector
+                            key={key}
+                            params={itemVal[key]}
+                            asList={asList}
+                            fbList={fbList}
+                            setItemVal={(attr, val) => this.setItemVal(key, attr, val)} />
+                    )}
+                </div>
+                <Flexitem itemVal={itemVal} asList={asList} fbList={fbList} />
             </div>
         );
     }
