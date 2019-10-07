@@ -23,4 +23,5 @@ Flexbox playground with React and Bootstrap.
 
 ## Reference
 [CodePen by Blake Bowen](https://codepen.io/osublake/full/dMLQJr)
+
 [Visual Guide to CSS3 Flexbox: Flexbox Playground](https://demos.scotch.io/visual-guide-to-css3-flexbox-flexbox-playground/demos/)
