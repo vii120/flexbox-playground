@@ -167,6 +167,9 @@ body {
 
 @media (max-width: 768px) {
     body {
+        h3 {
+            font-size: 1.5rem;
+        }
         .boxItem {
             &:nth-child(n+6) {      // 手機版只顯示 5 個
                 display: none;

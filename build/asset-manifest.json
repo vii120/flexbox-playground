@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/flexbox-playground/static/css/main.62949e93.chunk.css",
+    "main.css": "/flexbox-playground/static/css/main.8b782ac1.chunk.css",
     "main.js": "/flexbox-playground/static/js/main.83d51199.chunk.js",
     "main.js.map": "/flexbox-playground/static/js/main.83d51199.chunk.js.map",
     "runtime-main.js": "/flexbox-playground/static/js/runtime-main.fbed5028.js",
@@ -8,8 +8,8 @@
     "static/js/2.49b57b08.chunk.js": "/flexbox-playground/static/js/2.49b57b08.chunk.js",
     "static/js/2.49b57b08.chunk.js.map": "/flexbox-playground/static/js/2.49b57b08.chunk.js.map",
     "index.html": "/flexbox-playground/index.html",
-    "precache-manifest.8383111be60c9e9c3e3c49e966ab7de1.js": "/flexbox-playground/precache-manifest.8383111be60c9e9c3e3c49e966ab7de1.js",
+    "precache-manifest.0ab31ad1ca9ce1376d18985d1e2de8a9.js": "/flexbox-playground/precache-manifest.0ab31ad1ca9ce1376d18985d1e2de8a9.js",
     "service-worker.js": "/flexbox-playground/service-worker.js",
-    "static/css/main.62949e93.chunk.css.map": "/flexbox-playground/static/css/main.62949e93.chunk.css.map"
+    "static/css/main.8b782ac1.chunk.css.map": "/flexbox-playground/static/css/main.8b782ac1.chunk.css.map"
   }
 }
