@@ -5,7 +5,7 @@ class ItemSelector extends Component {
         super(props);
     }
     render() {
-        const { params, setItemVal, asList, fbList } = this.props
+        const { params, setItemVal, asList, fbList, number } = this.props
         const { grow, shrink, basis, order, self } = params
         const NumberBox = (attr, data) => (
             <div className="numberBox">
@@ -16,6 +16,7 @@ class ItemSelector extends Component {
         )
         return (
             <div className="selector">
+                <div className="text-center font-weight-bold">{number}</div>
                 <div className="selRow">
                     <span className="selTitle">flex-grow</span>
                     {NumberBox('grow', grow)}

@@ -96,11 +96,19 @@ class MainPage extends Component {
         return classList
     }
     // 初始化 container 所有值
-    initVal = (e) => {
+    initCon = (e) => {
         if (e) { e.preventDefault() }
         const newVal = { ...this.state.containerVal }
         Object.keys(newVal).map(item => newVal[item] = 0)
         this.setState({ containerVal: newVal });
+    }
+    // 初始化 items 所有值
+    initItems = (e) => {
+        if (e) { e.preventDefault() }
+        const newVal = Array.apply(null, Array(5)).map(item => (
+            { grow: 0, shrink: 1, basis: 0, order: 0, self: 0 }
+        ))
+        this.setState({ itemVal: newVal });
     }
     render() {
         const {
@@ -129,7 +137,9 @@ class MainPage extends Component {
         return (
             <div className="container pt-2 pb-5">
                 <h1 className="text-center mb-4">Flexbox Playground</h1>
-                <h3><span role="img">🧀</span> flex container</h3>
+                <h3 className="my-4"><span role="img">🧀</span> flex container
+                    <button className="btn btn-sm btn-outline-danger ml-4" onClick={this.initCon}>reset!</button>
+                </h3>
                 {radioContent('flex-direction', 'dirBtn', dirList, 'dirVal')}
                 {radioContent('flex-wrap', 'wrapBtn', wrapList, 'wrapVal')}
                 {radioContent('justify-content', 'jcBtn', jcList, 'jcVal')}
@@ -137,13 +147,15 @@ class MainPage extends Component {
                 {radioContent('align-content', 'acBtn', acList, 'acVal')}
                 {!!containerVal.acVal && !containerVal.wrapVal &&
                     <div className="text-danger">* ALIGN-CONTENT need to use with WRAP!!</div>}
-                <button className="btn btn-outline-danger my-2" onClick={this.initVal}>reset!</button>
                 <Flexbox classList={this.setClass()} />
-                <h3 className="pt-3"><span role="img">🧀</span> flex items</h3>
+                <h3 className="my-4"><span role="img">🧀</span> flex items
+                    <button className="btn btn-sm btn-outline-danger ml-4" onClick={this.initItems}>reset!</button>
+                </h3>
                 <div className="selectorWrapper">
                     {Array.apply(null, Array(5)).map((item, key) =>
                         <ItemSelector
                             key={key}
+                            number={key + 1}
                             params={itemVal[key]}
                             asList={asList}
                             fbList={fbList}
